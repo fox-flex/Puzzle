@@ -13,7 +13,7 @@ board0 = [
  " 6  83  *",
  "3   1  **",
  "  8  2***",
- "  2  ****"
+ " 12  ****"
 ]
 
 
@@ -43,27 +43,36 @@ def check_horizontal(board: list) -> bool:
     return unique
 
 
-def check_vertical(board: list, num=N) -> bool:
+def check_vertical(board: list) -> bool:
+    global N
     board_str = ''
     for line in board:
         board_str += line
     board_columns = []
-    num = 9
-    for i in range(num):
-        board_columns.append(board_str[i::num])
+    for i in range(N):
+        board_columns.append(board_str[i::N])
     return check_horizontal(board_columns)
 
 
-def check_color(board: list, num=N) -> bool:
-    pass
+def check_color(board: list) -> bool:
+    global N
+    unique = True
+    board_c = board[::-1]
+    num = N//2 + 1
+    for i in range(num):
+        vals = []
+        for j in range(num):
+            vals.append(board_c[i+j][i])
+            vals.append(board_c[i][i+j])
+        if not check_unique(vals[1:]):
+            unique = False
+            break
+    return unique
 
 
-def validate_board(board: list, num=N) -> bool:
-    is_correct = True
-
-    return is_correct
+def validate_board(brd: list) -> bool:
+    return check_horizontal(brd) and check_vertical(brd) and check_color(brd)
 
 
 if __name__ == "__main__":
-    # print('Hello, World!')
-    pass
+    print('Hello, World!')
